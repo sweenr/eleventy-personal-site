@@ -1,0 +1,76 @@
+---
+layout: layouts/base.njk
+section: home
+---
+
+<section class="hero">
+  <h1>Richard Sween</h1>
+  <p class="subtitle">Freelance Software Architect & Developer</p>
+  <p class="bio">Software engineering leader and developer based in Jackson, MS with 15 years of experience spanning frontend, backend, cloud, DevOps, and engineering management. I help teams build reliable, scalable software and ship it with confidence.</p>
+</section>
+
+<section class="skills">
+  <h2>Skills & Experience</h2>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <h3>Frontend</h3>
+      <p>React, Next.js, Vite, HTML/CSS, responsive design, accessibility</p>
+    </div>
+    <div class="skill-card">
+      <h3>Backend</h3>
+      <p>Node.js, Express, REST APIs, databases, authentication, system design</p>
+    </div>
+    <div class="skill-card">
+      <h3>Cloud & DevOps</h3>
+      <p>AWS CDK, infrastructure as code, CI/CD, containerization, monitoring</p>
+    </div>
+    <div class="skill-card">
+      <h3>Leadership</h3>
+      <p>Team management, architecture decisions, code review, mentoring, project planning</p>
+    </div>
+  </div>
+</section>
+
+<section class="projects">
+  <h2>Projects</h2>
+  <div class="card-grid">
+    <a href="#" class="card">
+      <h3>Project One</h3>
+      <p>A brief description of the project and the technologies used.</p>
+    </a>
+    <a href="#" class="card">
+      <h3>Project Two</h3>
+      <p>A brief description of the project and the technologies used.</p>
+    </a>
+    <a href="#" class="card">
+      <h3>Project Three</h3>
+      <p>A brief description of the project and the technologies used.</p>
+    </a>
+  </div>
+</section>
+
+<section class="talks">
+  <h2>Talks</h2>
+  <div class="card-grid">
+    <a href="#" class="card">
+      <h3>Talk One</h3>
+      <p>Topic and event details.</p>
+    </a>
+    <a href="#" class="card">
+      <h3>Talk Two</h3>
+      <p>Topic and event details.</p>
+    </a>
+  </div>
+</section>
+
+<section class="blog-link">
+  <h2>Blog</h2>
+  <p>I write about software development, architecture, and lessons learned from building things.</p>
+  <a href="/blog/" class="btn">Read the blog</a>
+</section>
+
+<section class="contact" id="contact">
+  <h2>Get in Touch</h2>
+  <p>Have a project in mind or just want to say hello? Send me a message.</p>
+  {% include "components/form.njk" %}
+</section>
