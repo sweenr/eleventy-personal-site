@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Contrast Visualization</title>
+  </head>
+  <body>
+    <style>
+      .example-container {
+        width: 500px;
+        position: relative;
+      }
+      .example-container img {
+        width: 100%;
+      }
+      .example-container p {
+        position: absolute;
+        width: 500px;
+        top: 240px;
+        left: 0;
+        font-size: 2rem;
+        font-weight: bold;
+        color: white;
+      }
+      .example-container .background {
+        background-color: #00000088;
+      }
+    </style>
+    <div class="example-container">
+      <img
+        src="background.jpg"
+        alt="background image of a stacked pile of firewood"
+      />
+      <p class="background">
+        This is some sample text shown over a background image. This text shows
+        the challenges of putting text on an image while keeping it readable for
+        all users.
+      </p>
+    </div>
+  </body>
+</html>

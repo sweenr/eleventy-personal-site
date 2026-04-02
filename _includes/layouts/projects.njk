@@ -1,0 +1,32 @@
+---
+layout: layouts/base.njk
+section: projects
+---
+
+<h1>Projects</h1>
+
+<div class="projects-grid">
+  {% for project in collections.projects %}
+    <div class="project-card">
+      {% if project.data.featuredImage %}
+        <img src="{{ project.data.featuredImage }}" alt="{{ project.data.featuredImageAlt }}" class="project-card-img" loading="lazy">
+      {% endif %}
+      <div class="project-card-body">
+        <h2>{{ project.data.title }}</h2>
+        <div class="project-card-content">{{ project.data.page.excerpt | renderMarkdown | safe }}</div>
+        {% if project.data.tags %}
+          <div class="project-card-tags">
+            {% for tag in project.data.tags %}
+              <span class="tag">{{ tag }}</span>
+            {% endfor %}
+          </div>
+        {% endif %}
+        {% if project.data.actionButtonUrl === "slug" %}
+          <a href="{{ project.url }}" class="btn">{{ project.data.actionButtonText }}</a>
+        {% elif project.data.actionButtonUrl %}
+          <a href="{{ project.data.actionButtonUrl }}" class="btn" target="_blank" rel="noopener noreferrer">{{ project.data.actionButtonText }}</a>
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+</div>

@@ -19,11 +19,17 @@ module.exports = function(eleventyConfig) {
   // https://www.11ty.dev/docs/data-deep-merge/
   eleventyConfig.setDataDeepMerge(true);
 
+  // Extract excerpt from content before <!-- endexcerpt --> marker
+  eleventyConfig.setFrontMatterParsingOptions({
+    excerpt: true,
+    excerpt_separator: "<!-- endexcerpt -->"
+  });
+
   // Add support for maintenance-free post authors
   // Adds an authors collection using the author key in our post frontmatter
   // Thanks to @pdehaan: https://github.com/pdehaan
   eleventyConfig.addCollection("authors", collection => {
-    const blogs = collection.getFilteredByGlob("posts/*.md");
+    const blogs = collection.getFilteredByGlob("content/posts/*/index.md");
     return blogs.reduce((coll, post) => {
       const author = post.data.author;
       if (!author) {
@@ -35,6 +41,27 @@ module.exports = function(eleventyConfig) {
       coll[author].push(post.data);
       return coll;
     }, {});
+  });
+
+  // Talks collection: non-draft talks, newest first
+  eleventyConfig.addCollection("talks", collection => {
+    return collection.getFilteredByGlob("content/talks/*.md")
+      .filter(item => item.data.draft !== true)
+      .sort((a, b) => b.date - a.date);
+  });
+
+  // Projects collection: non-draft projects, newest first
+  eleventyConfig.addCollection("projects", collection => {
+    return collection.getFilteredByGlob("content/projects/*.md")
+      .filter(item => item.data.draft !== true)
+      .sort((a, b) => b.date - a.date);
+  });
+
+  // Render markdown excerpt to HTML
+  eleventyConfig.addFilter("renderMarkdown", content => {
+    if (!content) return "";
+    const markdownIt = require("markdown-it")({ breaks: true, linkify: true });
+    return markdownIt.render(content);
   });
 
   // Date formatting (human readable)
@@ -69,7 +96,7 @@ module.exports = function(eleventyConfig) {
 
   // Minify HTML output
   eleventyConfig.addTransform("htmlmin", function(content, outputPath) {
-    if (outputPath.indexOf(".html") > -1) {
+    if (outputPath && outputPath.indexOf(".html") > -1) {
       let minified = htmlmin.minify(content, {
         useShortDoctype: true,
         removeComments: true,
@@ -82,10 +109,24 @@ module.exports = function(eleventyConfig) {
 
   // Don't process folders with static assets e.g. images
   eleventyConfig.addPassthroughCopy("favicon.ico");
-  eleventyConfig.addPassthroughCopy("static/img");
+  eleventyConfig.addPassthroughCopy({ "static": "/" });
   eleventyConfig.addPassthroughCopy("admin/");
   // We additionally output a copy of our CSS for use in Decap CMS previews
   eleventyConfig.addPassthroughCopy("_includes/assets/css/inline.css");
+
+  // Copy post assets (images, etc.) to output matching post permalink structure
+  const fs = require("fs");
+  const path = require("path");
+  const postsDir = path.join(__dirname, "content/posts");
+  if (fs.existsSync(postsDir)) {
+    fs.readdirSync(postsDir, { withFileTypes: true })
+      .filter(d => d.isDirectory())
+      .forEach(d => {
+        const src = `content/posts/${d.name}`;
+        const dest = `posts/${d.name.toLowerCase()}`;
+        eleventyConfig.addPassthroughCopy({ [src + "/*.{png,jpg,jpeg,gif,svg,webp}"]: dest });
+      });
+  }
 
   /* Markdown Plugins */
   let markdownIt = require("markdown-it");

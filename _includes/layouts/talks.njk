@@ -1,0 +1,31 @@
+---
+layout: layouts/base.njk
+section: talks
+---
+
+<h1>Talks</h1>
+
+<div class="talks-grid">
+  {% for talk in collections.talks %}
+    <div class="talk-card">
+      {% if talk.data.featuredImage %}
+        <img src="{{ talk.data.featuredImage }}" alt="{{ talk.data.featuredImageAlt }}" class="talk-card-img" loading="lazy">
+      {% endif %}
+      <div class="talk-card-body">
+        <h2>{{ talk.data.title }}</h2>
+        <time datetime="{{ talk.date | machineDate }}">{{ talk.date | readableDate }}</time>
+        <div class="talk-card-content">{{ talk.templateContent | safe }}</div>
+        {% if talk.data.tags %}
+          <div class="talk-card-tags">
+            {% for tag in talk.data.tags %}
+              <span class="tag">{{ tag }}</span>
+            {% endfor %}
+          </div>
+        {% endif %}
+        {% if talk.data.actionButtonUrl %}
+          <a href="{{ talk.data.actionButtonUrl }}" class="btn" target="_blank" rel="noopener noreferrer">{{ talk.data.actionButtonText }}</a>
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+</div>

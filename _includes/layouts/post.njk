@@ -3,25 +3,27 @@ layout: layouts/base.njk
 section: post
 ---
 
-<article>
+<article class="post-page">
   <h1>{{ title }}</h1>
-  <p>
-    <small>
-      <time datetime="{{ page.date | machineDate }}">{{ page.date | readableDate }}</time> by <a href="/authors/{{ author | slug }}/">{{ author }}</a>
-    </small>
+  <p class="post-meta">
+    <time datetime="{{ page.date | machineDate }}">{{ page.date | readableDate }}</time> by {{ author }}
   </p>
+
+  {% if featuredImageUrl %}
+    <img src="{{ featuredImageUrl }}" alt="{{ featuredImageAlt }}" class="post-hero-img" loading="lazy">
+  {% endif %}
 
   {{ content | safe }}
 
   {% if tags %}
-    <p>
+    <div class="post-tags">
     {% for tag in tags %}
       {%- if tag != "post" -%}
         {% set tagUrl %}/tags/{{ tag }}/{% endset %}
         <a href="{{ tagUrl | url }}" rel="tag">{{ tag }}</a>
       {%- endif -%}
     {% endfor %}
-    </p>
+    </div>
   {% endif %}
 
 </article>

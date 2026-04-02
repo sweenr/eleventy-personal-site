@@ -1,7 +1,7 @@
 {
-  "name": "eleventy-netlify-boilerplate",
-  "version": "1.0.5",
-  "description": "A boilerplate for building a fast static website with the Eleventy static site generator, for deployment to Netlify.",
+  "name": "richard-sween-site",
+  "version": "1.0.0",
+  "description": "A personal website for Richard Sween",
   "scripts": {
     "build": "npx @11ty/eleventy",
     "watch": "npx @11ty/eleventy --watch",
@@ -9,9 +9,9 @@
     "debug": "DEBUG=* npx @11ty/eleventy"
   },
   "author": {
-    "name": "Dan Urbanowicz",
-    "email": "dan.urbanowicz@gmail.com",
-    "url": "https://github.com/danurbanowicz"
+    "name": "Richard Sween",
+    "email": "richard@sween.dev",
+    "url": "https://github.com/sweenr"
   },
   "license": "MIT",
   "devDependencies": {
