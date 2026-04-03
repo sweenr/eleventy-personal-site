@@ -22,5 +22,8 @@
     "luxon": "^3.7.1",
     "markdown-it-anchor": "^9.2.0",
     "uglify-js": "^3.19.3"
+  },
+  "dependencies": {
+    "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.2"
   }
 }

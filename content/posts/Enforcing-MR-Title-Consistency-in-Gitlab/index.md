@@ -20,7 +20,7 @@ For some background, the team at HourWork was trying to build out some tooling t
 
 ## The Snippet:
 
-```yaml{numberLines: true}
+```yaml
 mr-check:
   stage: test
   cache: []
@@ -52,7 +52,7 @@ You will also need to setup a [Group or Project level CI variable](https://docs.
 
 ## Breaking it down
 
-```yaml{numberLines: true}
+```yaml
 mr-check:
   stage: .pre
   cache: []
@@ -60,7 +60,7 @@ mr-check:
 
 This names the job `mr-check`, defines the job in the [special ".pre" stage](https://docs.gitlab.com/ee/ci/yaml/#stage-pre) that runs before any other user-defined jobs, and tells the script to skip restoring any caches, as they won’t be needed here. If you’re not using [Gitlab CI’s caching mechanism](https://docs.gitlab.com/ee/ci/caching/) (which you probably should be if you’re downloading NPM packages, etc.), you can omit this line.
 
-```yaml{numberLines: 4}
+```yaml
 variables:
     DEFAULT_REGEX: '(Draft:\s)?(\[(#\d+|🔥|🔧|⭕|:fire:|:tools:|:o:)(, \#\d+)*\]|(\d{4}\.\d{2}\.\d{2}))\s[^"]+'
     DEFAULT_MESSAGE: 'Your MR does not have a valid title. Merge request titles should start with [\#ticketNum] or [\#ticket1, \#ticket2], or one of [🔥|🔧|⭕]. Please update the ticket title and rerun this job.'
@@ -68,14 +68,14 @@ variables:
 
 This section defines the default variables for the job. The 'DEFAULT_REGEX' specifies the title-matching regex. This is a default value that can be overridden per project by specifying a different value for "TITLE_REGEX". In the default case, it is looking for an MR title that starts with one or more ticket number in square brackets (e.g. [#123] or [#123, #456]) followed by some brief description of the MR. We also have escape hatches for MRs that don’t have tickets, like 🔥 for hotfixes or 🔧 for chores. Finally, we have a special title format for environment-to-environment MRs that start with that day's date (e.g. 2024.05.10). The DEFAULT_MESSAGE is what is sent to the user if the title doesn’t match the supplied regex.
 
-```yaml{numberLines: 7}
+```yaml
  rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $IS_DEPLOYED_BRANCH != "true"
 ```
 
 This line defines when the job runs. We only want to run this job if the pipeline source is “merge_request_event” which means our job was triggered when we create or push changes to an MR.
 
-```yaml{numberLines: 9}
+```yaml
 before_script:
     - if [[ -z "$TITLE_REGEX" ]]; then TITLE_REGEX=$(echo $DEFAULT_REGEX); fi
     - INTERNAL_REGEX=$(echo "\"title\":\"$TITLE_REGEX\"")
@@ -85,7 +85,7 @@ before_script:
 
 This sets up the regex we will use to pull the title information out of the Gitlab API response. The API call returns a JSON object containing all the relevant information about the MR. In this case, we’re just interested in the value of the “title” field, so we need to set up a regex to pull just the title out. In the `before_script`, we check to see if the project has a defined “TITLE_REGEX” for that specific project. Otherwise, we use the “DEFAULT_REGEX” to create a new variable called “INTERNAL_REGEX” to look for the title match in the API response. We do a similar thing with setting a variable to hold the message to be sent to the user if the MR title doesn't pass the test.
 
-```yaml{numberLines: 14}
+```yaml
  script:
     - >-
       MR=$(
@@ -95,7 +95,7 @@ This sets up the regex we will use to pull the title information out of the Gitl
 
 Now for the meat of the script. First, we need to get the Gitlab API response for the contents of this MR. We use pre-defined Gitlab runner variables to setup our curl request: $CI_API_V4_URL contains the root of the URL for the API, $CI_PROJECT_ID is the current project’s Gitlab id, and $CI_MERGE_REQUEST_IID is the internal id of the project (i.e. within that specific project, not Gitlab globally - notice the second “I”). We store the response from the API in a variable called “MR”.
 
-```yaml{numberLines: 19}
+```yaml
  - echo $MR | grep -P "$INTERNAL_REGEX" -o || EXIT_CODE=$?
     - >-
      if [[ -n "$EXIT_CODE" ]]; then curl -X POST -d "body=$INTERNAL_MESSAGE" -H "Content-Type: application/x-www-form-urlencoded" -H "Authorization: Bearer $GITLAB_ACCESS_TOKEN" "$CI_API_V4_URL/projects/$CI_PROJECT_ID/merge_requests/$CI_MERGE_REQUEST_IID/notes" && exit 1; fi
@@ -107,7 +107,7 @@ Next we use our regex to test the MR variable to see if there is a match using t
 
 Save this script as `mr-check.yml` (or whatever you want to call it) somewhere within the group you want to use it in (a group is just a way to organize projects in Gitlab; groups can be nested for better organization and access control). We created a special "Gitlab Helpers" repo to store all of our shared Gitlab resources but this is optional. Once you have it saved, add the script to the include section of your project’s .gitlab-ci.yml file like so:
 
-```yaml{numberLines: true}
+```yaml
 include:
   - project: '<parent_group>/<subgroup>/<name_of_repo>'
     ref: 'main'

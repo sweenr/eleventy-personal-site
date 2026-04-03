@@ -9,12 +9,6 @@ section: post
     <time datetime="{{ page.date | machineDate }}">{{ page.date | readableDate }}</time> by {{ author }}
   </p>
 
-  {% if featuredImageUrl %}
-    <img src="{{ featuredImageUrl }}" alt="{{ featuredImageAlt }}" class="post-hero-img" loading="lazy">
-  {% endif %}
-
-  {{ content | safe }}
-
   {% if tags %}
     <div class="post-tags">
     {% for tag in tags %}
@@ -25,6 +19,12 @@ section: post
     {% endfor %}
     </div>
   {% endif %}
+
+  {% if featuredImageUrl %}
+    <img src="{{ featuredImageUrl }}" alt="{{ featuredImageAlt }}" class="post-hero-img" loading="lazy">
+  {% endif %}
+
+  {{ content | safe }}
 
 </article>
 

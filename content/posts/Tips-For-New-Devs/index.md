@@ -1,5 +1,5 @@
 ---
-title: 'Common Pitfalls for New Devs'
+title: "Common Pitfalls for New Devs"
 author: Richard Sween
 description: After reviewing coding academy presentations, here are three common things that jumped out for new devs to be aware of.
 date: 2022-02-03T20:50:21.162Z
@@ -12,7 +12,7 @@ tags:
   - engineering manager
 ---
 
-Recently, I had the privilege to serve as an external reviewer for students at the [Mississippi Coding Academy](https://mscoding.org/). There were a few common issues I saw that I thought might be useful for other newer devs to be aware of. If you just want to see the tips, [click here to jump down to the tips](#tips).
+Recently, I had the privilege to serve as an external reviewer for students at the [Mississippi Coding Academy](https://mscoding.org/). There were a few common issues I saw that I thought might be useful for other newer devs to be aware of. If you just want to see the tips, [click here to jump down to the tips](#the-tips).
 
 # Background
 
@@ -20,7 +20,7 @@ MCA is a no-cost coding academy based in Jackson, MS that trains full-stack web 
 
 The project we were evaluating this week is my favorite to be a part of - the students were tasked with building a game using JavaScript. Beyond that the requirements are pretty minimal - you have to show using functions and variables, you have to have interactivity, and it has to be at least tangentially a game. I love this project because you really get to see the creativity of the students shine through their work. And I was not disappointed. I actually live-Tweeted the second and third days if you want to check out some of their games [here](https://twitter.com/_RichardSween/status/1488905361100845062) and [here](https://twitter.com/_RichardSween/status/1489256577781493765).
 
-<h1 id="tips">The Tips</h1>
+# The Tips
 
 ## Tip One - Be Aware of Repetitive Code
 
@@ -31,17 +31,17 @@ This is something I've seen a few times looking at newer developers code - and c
 Let's look at an example. Say I have this block of code:
 
 ```javascript
-let buttonOne = document.getElementById('buttonOne')
-buttonOne.innerHtml('Label One')
-buttonOne.onClick(() => console.log(`${buttonOne.innerHtml} clicked!`))
+let buttonOne = document.getElementById("buttonOne");
+buttonOne.innerHtml("Label One");
+buttonOne.onClick(() => console.log(`${buttonOne.innerHtml} clicked!`));
 
-let buttonTwo = document.getElementById('buttonTwo')
-buttonTwo.innerHtml('Label Two')
-buttonTwo.onClick(() => console.log(`${buttonTwo.innerHtml} clicked!`))
+let buttonTwo = document.getElementById("buttonTwo");
+buttonTwo.innerHtml("Label Two");
+buttonTwo.onClick(() => console.log(`${buttonTwo.innerHtml} clicked!`));
 
-let buttonThree = document.getElementById('buttonThree')
-buttonThree.innerHtml('Label Three')
-buttonThree.onClick(() => console.log(`${buttonThree.innerHtml} clicked!`))
+let buttonThree = document.getElementById("buttonThree");
+buttonThree.innerHtml("Label Three");
+buttonThree.onClick(() => console.log(`${buttonThree.innerHtml} clicked!`));
 ```
 
 Yikes, super repetitive. Let's see how we could refactor this into a simple function.
@@ -139,7 +139,7 @@ While you certainly may be able to read the text on that image, it was probably 
 
 Much better! But you don't have to take my word for it - let's use a tool to analyze the contrast between the text and the background image.
 
-<img src="cca-combined.jpg" alt="Image showing the difference in contrast between having no text background on the left with having a semi-transparent text background on the right" />
+![Image showing the difference in contrast between having no text background on the left with having a semi-transparent text background on the right](cca-combined.jpg)
 
 This image was created using a Chrome plugin called [Color Contrast Analyzer](https://chrome.google.com/webstore/detail/color-contrast-analyzer/dagdlcijhfbmgkjokkjicnnfimlebcll) that scans your page and determines the contrast between visible elements on your page. Contrast is the difference in perceived brightness between two colors, and the Web Content Accessability Guidelines (WCAG) defines a minimum contrast ratio that all of your visible elements should have so that your content is easily perceivable by everyone. In the image above, our original image is on the left, and the image with the text background transparency is on the right. The white pixels in the image show where there is sufficient contrast between adjacent pixels. On the left, there are big gaps in our words where there isn't enough contrast between the background and the white text which make it difficult to read. However, on the right our text is entirely outlined in white showing that we have enough contrast to read our text easily.
 
