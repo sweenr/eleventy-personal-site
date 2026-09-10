@@ -20,7 +20,7 @@
     "clean-css": "^5.3.3",
     "html-minifier": "^4.0.0",
     "luxon": "^3.7.1",
-    "markdown-it-anchor": "^9.2.0",
+    "markdown-it-anchor": "^10.0.0",
     "uglify-js": "^3.19.3"
   },
   "dependencies": {
